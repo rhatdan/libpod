@@ -307,6 +307,10 @@ type ContainerSecurityConfig struct {
 	Umask string `json:"umask,omitempty"`
 	// ProcOpts are the options used for the proc mount.
 	ProcOpts []string `json:"procfs_opts,omitempty"`
+	// Mask mask out certain directories my mounting an tmpfs over it
+	Mask []string `json:"mask,omitempty"`
+	// Ummask removed builtin masked directories
+	Unmask []string `json:"Unmask,omitempty"`
 }
 
 // ContainerCgroupConfig contains configuration information about a container's

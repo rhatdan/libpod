@@ -517,6 +517,10 @@ func FillOutSpecGen(s *specgen.SpecGenerator, c *ContainerCLIOpts, args []string
 			}
 
 			switch con[0] {
+			case "mask":
+				s.Mask = strings.Split(con[1], ",")
+			case "unmask":
+				s.Unmask = strings.Split(con[1], ",")
 			case "proc-opts":
 				s.ProcOpts = strings.Split(con[1], ",")
 			case "label":
