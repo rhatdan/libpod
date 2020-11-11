@@ -1,7 +1,7 @@
 #!/usr/bin/env bats   -*- bats -*-
 #
 # Tests #2730 - regular users are not able to read/write container storage
-# Tests #6957 - /sys/dev (et al) are masked from unprivileged containers
+# Tests #6957 - /sys/dev/block (et al) are masked from unprivileged containers
 #
 
 load helpers
@@ -99,7 +99,7 @@ EOF
 }
 
 
-# #6957 - mask out /proc/acpi, /sys/dev, and other sensitive system files
+# #6957 - mask out /proc/acpi, /sys/dev/block, and other sensitive system files
 @test "sensitive mount points are masked without --privileged" {
     # Weird error, maybe a flake?
     #   can only attach to created or running containers: container state improper
@@ -118,7 +118,7 @@ EOF
         /proc/scsi
         /sys/firmware
         /sys/fs/selinux
-        /sys/dev
+        /sys/dev/block
     )
 
     # Some of the above may not exist on our host. Find only the ones that do.
