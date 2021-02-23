@@ -260,8 +260,8 @@ Note: if _host_device_ is a symbolic link then it will be resolved first.
 The container will only store the major and minor numbers of the host device.
 
 Note: if the user only has access rights via a group, accessing the device
-from inside a rootless container will fail. The **crun**(1) runtime offers a
-workaround for this by adding the option **--annotation run.oci.keep_original_groups=1**.
+from inside a rootless container will fail. Use the `--security-opt keep-groups`
+flag to pass the users supplementary group access into the container.
 
 Podman may load kernel modules required for using the specified
 device. The devices that podman will load modules when necessary are:
@@ -842,12 +842,21 @@ Security Options
 - `apparmor=unconfined` : Turn off apparmor confinement for the container
 - `apparmor=your-profile` : Set the apparmor confinement profile for the container
 
+- `keep-groups`: Keep user's supplementary group access inside of container
+
+Allow container to use the user's supplementary group access. If file systems or
+devices are only accessible by the rootless users group, this flag tells the OCI
+runtime to pass the group access into the container. Currently only available
+with the crun OCI runtime. (Not available for remote commands)
+
 - `label=user:USER`     : Set the label user for the container processes
 - `label=role:ROLE`     : Set the label role for the container processes
 - `label=type:TYPE`     : Set the label process type for the container processes
 - `label=level:LEVEL`   : Set the label level for the container processes
 - `label=filetype:TYPE` : Set the label file type for the container files
 - `label=disable`       : Turn off label separation for the container
+
+Note: Labeling can be disabled for all containers by setting label=false in the **containers.conf** (`/etc/containers/containers.conf` or `$HOME/.config/containers/containers.conf`) file.
 
 - `mask=/path/1:/path/2` : The paths to mask separated by a colon. A masked path
   cannot be accessed inside the container.
@@ -857,14 +866,12 @@ Security Options
 - `seccomp=unconfined` : Turn off seccomp confinement for the container
 - `seccomp=profile.json` :  White listed syscalls seccomp Json file to be used as a seccomp filter
 
-- `unmask=ALL or /path/1:/path/2` : Paths to unmask separated by a colon. If set to **ALL**, it will
-  unmask all the paths that are masked or made read only by default.
-  The default masked paths are **/proc/acpi, /proc/kcore, /proc/keys, /proc/latency_stats, /proc/sched_debug, /proc/scsi, /proc/timer_list, /proc/timer_stats, /sys/firmware, and /sys/fs/selinux.**  The default paths that are read only are **/proc/asound, /proc/bus, /proc/fs, /proc/irq, /proc/sys, /proc/sysrq-trigger**.
-
 - `proc-opts=OPTIONS` : Comma separated list of options to use for the /proc mount. More details for the
   possible mount options are specified at **proc(5)** man page.
 
-Note: Labeling can be disabled for all containers by setting label=false in the **containers.conf** (`/etc/containers/containers.conf` or `$HOME/.config/containers/containers.conf`) file.
+- `unmask=ALL or /path/1:/path/2` : Paths to unmask separated by a colon. If set to **ALL**, it will
+  unmask all the paths that are masked or made read only by default.
+  The default masked paths are **/proc/acpi, /proc/kcore, /proc/keys, /proc/latency_stats, /proc/sched_debug, /proc/scsi, /proc/timer_list, /proc/timer_stats, /sys/firmware, and /sys/fs/selinux.**  The default paths that are read only are **/proc/asound, /proc/bus, /proc/fs, /proc/irq, /proc/sys, /proc/sysrq-trigger**.
 
 #### **--shm-size**=*size*
 
@@ -1171,6 +1178,10 @@ will convert /foo into a `shared` mount point. Alternatively one can directly
 change propagation properties of source mount. Say `/` is source mount for
 `/foo`, then use `mount --make-shared /` to convert `/` into a `shared` mount.
 
+Note: if the user only has access rights via a group, accessing the volume
+from inside a rootless container will fail. Use the `--security-opt keep-groups`
+flag to pass the users supplementary group access into the container.
+
 #### **--volumes-from**[=*CONTAINER*[:*OPTIONS*]]
 
 Mount volumes from the specified container(s). Used to share volumes between
@@ -1247,6 +1258,12 @@ $ podman create --uidmap 0:30000:7000 --gidmap 0:30000:7000 fedora echo hello
 $ podman create --tz=local alpine date
 $ podman create --tz=Asia/Shanghai alpine date
 $ podman create --tz=US/Eastern alpine date
+```
+
+### Configure keep supplimental groups for access to volume
+
+```
+$ podman create -v /var/lib/design:/var/lib/design --security-opt keep-groups ubi8
 ```
 
 ### Rootless Containers

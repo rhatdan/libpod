@@ -189,6 +189,16 @@ func createInit(c *cobra.Command) error {
 		val := c.Flag("entrypoint").Value.String()
 		cliVals.Entrypoint = &val
 	}
+	groups, err := c.Flags().GetBool("groups")
+	if err != nil {
+		return err
+
+	}
+	if groups {
+		cliVals.Annotation = append(cliVals.Annotation, "run.oci.keep_original_groups=1")
+
+	}
+
 	if c.Flags().Changed("pids-limit") {
 		val := c.Flag("pids-limit").Value.String()
 		pidsLimit, err := strconv.ParseInt(val, 10, 32)

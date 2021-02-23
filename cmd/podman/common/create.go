@@ -273,6 +273,14 @@ func DefineCreateFlags(cmd *cobra.Command, cf *ContainerCLIOpts) {
 	)
 	_ = cmd.RegisterFlagCompletionFunc(gidmapFlagName, completion.AutocompleteNone)
 
+	if !registry.IsRemote() {
+		groupsAddFlagName := "groups"
+		createFlags.Bool(
+			groupsAddFlagName, false,
+			"Allow container user's supplementary group access",
+		)
+	}
+
 	groupAddFlagName := "group-add"
 	createFlags.StringSliceVar(
 		&cf.GroupAdd,
