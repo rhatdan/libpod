@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/containers/buildah/copier"
+	"github.com/containers/buildah/define"
 	"github.com/containers/buildah/docker"
 	"github.com/containers/image/v5/docker/reference"
 	"github.com/containers/image/v5/image"
@@ -35,14 +36,16 @@ const (
 	// OCIv1ImageManifest is the MIME type of an OCIv1 image manifest,
 	// suitable for specifying as a value of the PreferredManifestType
 	// member of a CommitOptions structure.  It is also the default.
-	OCIv1ImageManifest = v1.MediaTypeImageManifest
+	OCIv1ImageManifest = define.OCIv1ImageManifest
 	// Dockerv2ImageManifest is the MIME type of a Docker v2s2 image
 	// manifest, suitable for specifying as a value of the
 	// PreferredManifestType member of a CommitOptions structure.
-	Dockerv2ImageManifest = manifest.DockerV2Schema2MediaType
+	Dockerv2ImageManifest = define.Dockerv2ImageManifest
 )
 
 type containerImageRef struct {
+	fromImageName         string
+	fromImageID           string
 	store                 storage.Store
 	compression           archive.Compression
 	name                  reference.Named
@@ -60,7 +63,7 @@ type containerImageRef struct {
 	exporting             bool
 	squash                bool
 	emptyLayer            bool
-	idMappingOptions      *IDMappingOptions
+	idMappingOptions      *define.IDMappingOptions
 	parent                string
 	blobDirectory         string
 	preEmptyLayers        []v1.History
@@ -279,7 +282,7 @@ func (i *containerImageRef) NewImageSource(ctx context.Context, sc *types.System
 	logrus.Debugf("layer list: %q", layers)
 
 	// Make a temporary directory to hold blobs.
-	path, err := ioutil.TempDir(os.TempDir(), Package)
+	path, err := ioutil.TempDir(os.TempDir(), define.Package)
 	if err != nil {
 		return nil, errors.Wrapf(err, "error creating temporary directory to hold layer blobs")
 	}
@@ -483,11 +486,16 @@ func (i *containerImageRef) NewImageSource(ctx context.Context, sc *types.System
 	if i.created != nil {
 		created = (*i.created).UTC()
 	}
+	comment := i.historyComment
+	// Add a comment for which base image is being used
+	if strings.Contains(i.parent, i.fromImageID) && i.fromImageName != i.fromImageID {
+		comment += "FROM " + i.fromImageName
+	}
 	onews := v1.History{
 		Created:    &created,
 		CreatedBy:  i.createdBy,
 		Author:     oimage.Author,
-		Comment:    i.historyComment,
+		Comment:    comment,
 		EmptyLayer: i.emptyLayer,
 	}
 	oimage.History = append(oimage.History, onews)
@@ -495,7 +503,7 @@ func (i *containerImageRef) NewImageSource(ctx context.Context, sc *types.System
 		Created:    created,
 		CreatedBy:  i.createdBy,
 		Author:     dimage.Author,
-		Comment:    i.historyComment,
+		Comment:    comment,
 		EmptyLayer: i.emptyLayer,
 	}
 	dimage.History = append(dimage.History, dnews)
@@ -697,7 +705,7 @@ func (b *Builder) makeImageRef(options CommitOptions, exporting bool) (types.Ima
 	}
 	manifestType := options.PreferredManifestType
 	if manifestType == "" {
-		manifestType = OCIv1ImageManifest
+		manifestType = define.OCIv1ImageManifest
 	}
 	oconfig, err := json.Marshal(&b.OCIv1)
 	if err != nil {
@@ -729,6 +737,8 @@ func (b *Builder) makeImageRef(options CommitOptions, exporting bool) (types.Ima
 	}
 
 	ref := &containerImageRef{
+		fromImageName:         b.FromImage,
+		fromImageID:           b.FromImageID,
 		store:                 b.store,
 		compression:           options.Compression,
 		name:                  name,

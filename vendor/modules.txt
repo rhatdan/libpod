@@ -3,7 +3,7 @@ github.com/Azure/go-ansiterm
 github.com/Azure/go-ansiterm/winterm
 # github.com/BurntSushi/toml v0.3.1
 github.com/BurntSushi/toml
-# github.com/Microsoft/go-winio v0.4.16-0.20201130162521-d1ffc52c7331
+# github.com/Microsoft/go-winio v0.4.16
 github.com/Microsoft/go-winio
 github.com/Microsoft/go-winio/backuptar
 github.com/Microsoft/go-winio/pkg/guid
@@ -49,12 +49,12 @@ github.com/checkpoint-restore/go-criu/rpc
 github.com/chzyer/readline
 # github.com/containerd/cgroups v0.0.0-20200531161412-0dbf7f05ba59
 github.com/containerd/cgroups/stats/v1
-# github.com/containerd/containerd v1.4.1
+# github.com/containerd/containerd v1.4.3
 github.com/containerd/containerd/errdefs
 github.com/containerd/containerd/log
 github.com/containerd/containerd/platforms
 github.com/containerd/containerd/sys
-# github.com/containerd/continuity v0.0.0-20200413184840-d3ef23f19fbb
+# github.com/containerd/continuity v0.0.0-20210208174643-50096c924a4e
 github.com/containerd/continuity/fs
 github.com/containerd/continuity/sysx
 # github.com/containernetworking/cni v0.8.1
@@ -72,7 +72,7 @@ github.com/containernetworking/plugins/pkg/utils/hwaddr
 github.com/containernetworking/plugins/pkg/utils/sysctl
 github.com/containernetworking/plugins/plugins/ipam/host-local/backend
 github.com/containernetworking/plugins/plugins/ipam/host-local/backend/allocator
-# github.com/containers/buildah v1.19.8
+# github.com/containers/buildah v1.19.2-0.20210309175006-b0d4af99e037
 github.com/containers/buildah
 github.com/containers/buildah/bind
 github.com/containers/buildah/chroot
@@ -91,7 +91,7 @@ github.com/containers/buildah/pkg/parse
 github.com/containers/buildah/pkg/rusage
 github.com/containers/buildah/pkg/supplemented
 github.com/containers/buildah/util
-# github.com/containers/common v0.35.0
+# github.com/containers/common v0.35.2
 github.com/containers/common/pkg/apparmor
 github.com/containers/common/pkg/apparmor/internal/supported
 github.com/containers/common/pkg/auth
@@ -113,7 +113,7 @@ github.com/containers/common/pkg/umask
 github.com/containers/common/version
 # github.com/containers/conmon v2.0.20+incompatible
 github.com/containers/conmon/runner/config
-# github.com/containers/image/v5 v5.10.2
+# github.com/containers/image/v5 v5.10.5
 github.com/containers/image/v5/copy
 github.com/containers/image/v5/directory
 github.com/containers/image/v5/directory/explicitfilepath
@@ -185,7 +185,7 @@ github.com/containers/psgo/internal/dev
 github.com/containers/psgo/internal/host
 github.com/containers/psgo/internal/proc
 github.com/containers/psgo/internal/process
-# github.com/containers/storage v1.25.0
+# github.com/containers/storage v1.27.0
 github.com/containers/storage
 github.com/containers/storage/drivers
 github.com/containers/storage/drivers/aufs
@@ -226,6 +226,7 @@ github.com/containers/storage/pkg/system
 github.com/containers/storage/pkg/tarlog
 github.com/containers/storage/pkg/truncindex
 github.com/containers/storage/pkg/unshare
+github.com/containers/storage/types
 # github.com/coreos/go-iptables v0.5.0
 github.com/coreos/go-iptables/iptables
 # github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e
@@ -255,7 +256,7 @@ github.com/docker/distribution/registry/client/auth/challenge
 github.com/docker/distribution/registry/client/transport
 github.com/docker/distribution/registry/storage/cache
 github.com/docker/distribution/registry/storage/cache/memory
-# github.com/docker/docker v20.10.0-beta1.0.20201113105859-b6bfff2a628f+incompatible
+# github.com/docker/docker v20.10.3-0.20210216175712-646072ed6524+incompatible
 github.com/docker/docker/api
 github.com/docker/docker/api/types
 github.com/docker/docker/api/types/blkiodev
@@ -306,7 +307,7 @@ github.com/docker/libnetwork/resolvconf/dns
 github.com/docker/libnetwork/types
 # github.com/fsnotify/fsnotify v1.4.9
 github.com/fsnotify/fsnotify
-# github.com/fsouza/go-dockerclient v1.6.6
+# github.com/fsouza/go-dockerclient v1.7.2
 github.com/fsouza/go-dockerclient
 # github.com/ghodss/yaml v1.0.0
 github.com/ghodss/yaml
@@ -314,7 +315,7 @@ github.com/ghodss/yaml
 github.com/go-logr/logr
 # github.com/godbus/dbus/v5 v5.0.3
 github.com/godbus/dbus/v5
-# github.com/gogo/protobuf v1.3.1
+# github.com/gogo/protobuf v1.3.2
 github.com/gogo/protobuf/gogoproto
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/protoc-gen-gogo/descriptor
@@ -387,11 +388,11 @@ github.com/matttproud/golang_protobuf_extensions/pbutil
 github.com/miekg/pkcs11
 # github.com/mistifyio/go-zfs v2.1.1+incompatible
 github.com/mistifyio/go-zfs
-# github.com/moby/sys/mount v0.1.1
+# github.com/moby/sys/mount v0.2.0
 github.com/moby/sys/mount
 # github.com/moby/sys/mountinfo v0.4.0
 github.com/moby/sys/mountinfo
-# github.com/moby/term v0.0.0-20201110203204-bea5bbe245bf
+# github.com/moby/term v0.0.0-20201216013528-df9cb8a40635
 github.com/moby/term
 github.com/moby/term/windows
 # github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
@@ -400,7 +401,7 @@ github.com/modern-go/concurrent
 github.com/modern-go/reflect2
 # github.com/morikuni/aec v1.0.0
 github.com/morikuni/aec
-# github.com/mrunalp/fileutils v0.0.0-20171103030105-7d4729fb3618
+# github.com/mrunalp/fileutils v0.5.0
 github.com/mrunalp/fileutils
 # github.com/mtrmac/gpgme v0.1.2
 github.com/mtrmac/gpgme
@@ -459,15 +460,16 @@ github.com/opencontainers/go-digest
 # github.com/opencontainers/image-spec v1.0.2-0.20190823105129-775207bd45b6
 github.com/opencontainers/image-spec/specs-go
 github.com/opencontainers/image-spec/specs-go/v1
-# github.com/opencontainers/runc v1.0.0-rc91.0.20200708210054-ce54a9d4d79b
+# github.com/opencontainers/runc v1.0.0-rc93
 github.com/opencontainers/runc/libcontainer/apparmor
 github.com/opencontainers/runc/libcontainer/cgroups
+github.com/opencontainers/runc/libcontainer/cgroups/fscommon
 github.com/opencontainers/runc/libcontainer/configs
 github.com/opencontainers/runc/libcontainer/devices
 github.com/opencontainers/runc/libcontainer/system
 github.com/opencontainers/runc/libcontainer/user
 github.com/opencontainers/runc/libcontainer/utils
-# github.com/opencontainers/runtime-spec v1.0.3-0.20200817204227-f9c09b4ea1df
+# github.com/opencontainers/runtime-spec v1.0.3-0.20200929063507-e6143ca7d51d
 github.com/opencontainers/runtime-spec/specs-go
 # github.com/opencontainers/runtime-tools v0.9.0
 github.com/opencontainers/runtime-tools/error
@@ -480,7 +482,7 @@ github.com/opencontainers/runtime-tools/validate
 github.com/opencontainers/selinux/go-selinux
 github.com/opencontainers/selinux/go-selinux/label
 github.com/opencontainers/selinux/pkg/pwalk
-# github.com/openshift/imagebuilder v1.1.8
+# github.com/openshift/imagebuilder v1.2.0
 github.com/openshift/imagebuilder
 github.com/openshift/imagebuilder/dockerfile/command
 github.com/openshift/imagebuilder/dockerfile/parser
@@ -540,7 +542,7 @@ github.com/stefanberger/go-pkcs11uri
 # github.com/stretchr/testify v1.7.0
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/require
-# github.com/syndtr/gocapability v0.0.0-20180916011248-d98352740cb2
+# github.com/syndtr/gocapability v0.0.0-20200815063812-42c35b437635
 github.com/syndtr/gocapability/capability
 # github.com/tchap/go-patricia v2.3.0+incompatible
 github.com/tchap/go-patricia/patricia
@@ -625,8 +627,9 @@ golang.org/x/net/trace
 # golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
 golang.org/x/sync/errgroup
 golang.org/x/sync/semaphore
-# golang.org/x/sys v0.0.0-20210119212857-b64e53b001e4
+# golang.org/x/sys v0.0.0-20210216224549-f992740a1bac
 golang.org/x/sys/cpu
+golang.org/x/sys/execabs
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/plan9
 golang.org/x/sys/unix
@@ -654,7 +657,7 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# golang.org/x/tools v0.0.0-20201224043029-2b0845dc783e
+# golang.org/x/tools v0.0.0-20210106214847-113979e3529a
 golang.org/x/tools/go/ast/inspector
 # google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013
 google.golang.org/genproto/googleapis/rpc/status

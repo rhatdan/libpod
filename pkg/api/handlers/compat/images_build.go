@@ -13,7 +13,9 @@ import (
 	"time"
 
 	"github.com/containers/buildah"
+	"github.com/containers/buildah/define"
 	"github.com/containers/buildah/imagebuildah"
+	"github.com/containers/buildah/pkg/parse"
 	"github.com/containers/buildah/util"
 	"github.com/containers/image/v5/types"
 	"github.com/containers/podman/v3/libpod"
@@ -26,6 +28,14 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
+
+func getIsolation(isolation string) (define.Isolation, error) {
+	iso, err := parse.IsolationOption(isolation)
+	if err == nil {
+		return define.IsolationDefault, err
+	}
+	return iso, nil
+}
 
 func BuildImage(w http.ResponseWriter, r *http.Request) {
 	if hdr, found := r.Header["Content-Type"]; found && len(hdr) > 0 {
@@ -84,7 +94,7 @@ func BuildImage(w http.ResponseWriter, r *http.Request) {
 		ForceRm                bool   `schema:"forcerm"`
 		From                   string `schema:"from"`
 		HTTPProxy              bool   `schema:"httpproxy"`
-		Isolation              int64  `schema:"isolation"`
+		Isolation              string `schema:"isolation"`
 		Ignore                 bool   `schema:"ignore"`
 		Jobs                   int    `schema:"jobs"` // nolint
 		Labels                 string `schema:"labels"`
@@ -199,15 +209,23 @@ func BuildImage(w http.ResponseWriter, r *http.Request) {
 	}
 	format := buildah.Dockerv2ImageManifest
 	registry := query.Registry
-	isolation := buildah.IsolationChroot
-	/*
-		// FIXME, This is very broken.  Buildah will only work with chroot
-		isolation := buildah.IsolationDefault
-	*/
+	isolation := buildah.IsolationDefault
 	if utils.IsLibpodRequest(r) {
-		//		isolation = buildah.Isolation(query.Isolation)
+		iso, err := getIsolation(query.Isolation)
+		if err == nil {
+			utils.BadRequest(w, "isolation", query.Isolation,
+				err)
+			return
+		}
+		isolation = iso
 		registry = ""
 		format = query.OutputFormat
+	} else {
+		if query.Isolation != "" && query.Isolation != "default" {
+			utils.BadRequest(w, "isolation", query.Isolation,
+				errors.New("isolation is not supported"))
+			return
+		}
 	}
 	var additionalTags []string
 	if len(query.Tag) > 1 {
