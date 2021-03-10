@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/containers/buildah"
+	"github.com/containers/buildah/define"
 	"github.com/containers/buildah/imagebuildah"
 	buildahCLI "github.com/containers/buildah/pkg/cli"
 	"github.com/containers/buildah/pkg/parse"
@@ -196,7 +197,7 @@ func build(cmd *cobra.Command, args []string) error {
 	var contextDir string
 	if len(args) > 0 {
 		// The context directory could be a URL.  Try to handle that.
-		tempDir, subDir, err := imagebuildah.TempDirForURL("", "buildah", args[0])
+		tempDir, subDir, err := define.TempDirForURL("", "buildah", args[0])
 		if err != nil {
 			return errors.Wrapf(err, "error prepping temporary context directory")
 		}
@@ -304,6 +305,21 @@ func buildFlagsWrapperToOptions(c *cobra.Command, contextDir string, flags *buil
 		return nil, err
 	}
 
+	pullFlagsCount := 0
+	if c.Flag("pull").Changed {
+		pullFlagsCount++
+	}
+	if c.Flag("pull-always").Changed {
+		pullFlagsCount++
+	}
+	if c.Flag("pull-never").Changed {
+		pullFlagsCount++
+	}
+
+	if pullFlagsCount > 1 {
+		return nil, errors.Errorf("can only set one of 'pull' or 'pull-always' or 'pull-never'")
+	}
+
 	pullPolicy := imagebuildah.PullIfMissing
 	if c.Flags().Changed("pull") && flags.Pull {
 		pullPolicy = imagebuildah.PullAlways
@@ -313,7 +329,7 @@ func buildFlagsWrapperToOptions(c *cobra.Command, contextDir string, flags *buil
 	}
 
 	if flags.PullNever {
-		pullPolicy = imagebuildah.PullIfMissing
+		pullPolicy = imagebuildah.PullNever
 	}
 
 	args := make(map[string]string)
