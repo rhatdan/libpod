@@ -591,7 +591,7 @@ USER bin`
 			session := podmanTest.Podman([]string{"run", "--rm", "--blkio-weight=15", ALPINE, "sh", "-c", "cat /sys/fs/cgroup/$(sed -e 's|0::||' < /proc/self/cgroup)/io.bfq.weight"})
 			session.WaitWithDefaultTimeout()
 			Expect(session.ExitCode()).To(Equal(0))
-			Expect(session.OutputToString()).To(ContainSubstring("51"))
+			Expect(session.OutputToString()).To(ContainSubstring("15"))
 		} else {
 			session := podmanTest.Podman([]string{"run", "--rm", "--blkio-weight=15", ALPINE, "cat", "/sys/fs/cgroup/blkio/blkio.weight"})
 			session.WaitWithDefaultTimeout()

@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/containers/buildah"
-	"github.com/containers/buildah/imagebuildah"
+	"github.com/containers/buildah/define"
 	"github.com/containers/buildah/util"
 	"github.com/containers/image/v5/types"
 	"github.com/containers/podman/v3/libpod"
@@ -307,7 +307,7 @@ func BuildImage(w http.ResponseWriter, r *http.Request) {
 		utils.Error(w, "Something went wrong.", http.StatusInternalServerError, errors.Wrap(err, "Decode()"))
 		return
 	}
-	buildOptions := imagebuildah.BuildOptions{
+	buildOptions := define.BuildOptions{
 		AddCapabilities: addCaps,
 		AdditionalTags:  additionalTags,
 		Annotations:     annotations,
